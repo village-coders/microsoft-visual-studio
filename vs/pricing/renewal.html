@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Renewal - Microsoft Store</title>
+    <style>
+        :root {
+            --primary-blue: #0067b8;
+            --primary-blue-hover: #005da6;
+            --text-dark: #242424;
+            --text-light: #616161;
+            --border-color: #e6e6e6;
+            --bg-color: #faf9f8;
+            
+            /* Dynamic variables updated by JS */
+            --box-gradient: linear-gradient(135deg, #5c2d91 0%, #8661c5 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Microsoft Global Header Clone */
+        .ms-header {
+            width: 100%;
+            height: 54px;
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            box-sizing: border-box;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 50;
+        }
+
+        .ms-header-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .ms-header-logo::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: 
+                linear-gradient(to right, #f35325 50%, #81bc06 50%),
+                linear-gradient(to right, #05a6f0 50%, #ffba08 50%);
+            background-size: 100% 50%;
+            background-repeat: no-repeat;
+            background-position: top, bottom;
+        }
+
+        .page-wrapper {
+            margin-top: 100px;
+            width: 100%;
+            max-width: 1200px; /* Wider professional layout */
+            padding: 0 20px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+        }
+
+        .store-container {
+            background-color: white;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+            border: 1px solid var(--border-color);
+            display: flex;
+            padding: 60px;
+            gap: 60px;
+            position: relative;
+            box-sizing: border-box;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeUp 0.6s ease-out forwards;
+            border-radius: 4px;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .product-image-container {
+            flex: 0 0 350px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-image {
+            width: 100%;
+            aspect-ratio: 1;
+            background: var(--box-gradient);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 32px;
+            box-sizing: border-box;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+            border-radius: 4px;
+            transition: background 0.5s ease;
+        }
+
+        .product-image .ms-logo {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: auto;
+        }
+
+        .product-image .ms-logo::before {
+            content: '';
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            background: 
+                linear-gradient(to right, #f35325 50%, #81bc06 50%),
+                linear-gradient(to right, #05a6f0 50%, #ffba08 50%);
+            background-size: 100% 50%;
+            background-repeat: no-repeat;
+            background-position: top, bottom;
+        }
+
+        .product-image h2 {
+            margin: 0 0 10px 0;
+            font-size: 36px;
+            font-weight: 300;
+        }
+
+        .product-image p {
+            margin: 0;
+            font-size: 16px;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .product-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            gap: 40px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin: 0;
+            font-weight: 600;
+            line-height: 1.2;
+            transition: color 0.3s;
+        }
+
+        .price-large {
+            font-size: 28px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .publisher {
+            color: var(--primary-blue);
+            font-size: 15px;
+            margin-bottom: 32px;
+        }
+
+        .description {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-dark);
+            margin-bottom: 32px;
+            max-width: 450px;
+        }
+
+        .more-link {
+            color: var(--primary-blue);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .more-link::before {
+            content: '+';
+        }
+
+        .more-link:hover {
+            text-decoration: underline;
+        }
+
+        .config-section {
+            margin-bottom: 32px;
+            max-width: 280px;
+            align-self: flex-end;
+            width: 100%;
+        }
+
+        .config-title {
+            font-size: 15px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        input[type="radio"] {
+            margin: 0;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-blue);
+            cursor: pointer;
+        }
+
+        .buy-button {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            max-width: 280px;
+            align-self: flex-end;
+            transition: background-color 0.2s, transform 0.1s;
+            margin-bottom: 24px;
+            border-radius: 4px;
+        }
+
+        .buy-button:hover {
+            background-color: var(--primary-blue-hover);
+        }
+        
+        .buy-button:active {
+            transform: scale(0.98);
+        }
+
+        .fine-print {
+            font-size: 13px;
+            color: var(--text-light);
+            line-height: 1.6;
+            max-width: 280px;
+            align-self: flex-end;
+        }
+
+        .fine-print p {
+            margin: 0 0 16px 0;
+        }
+
+        .fine-print strong {
+            color: var(--text-dark);
+        }
+
+        .right-column-container {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .top-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .left-text {
+            flex: 1;
+            padding-right: 40px;
+        }
+
+        .right-actions {
+            width: 280px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Floating elements */
+        .chat-widget {
+            position: absolute;
+            bottom: -24px;
+            right: 40px;
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 24px rgba(0,103,184,0.3);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 10;
+            transition: transform 0.2s;
+        }
+
+        .chat-widget:hover {
+            transform: translateY(-2px);
+        }
+
+        .chat-widget img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .back-to-top {
+            position: absolute;
+            bottom: -60px;
+            right: 0;
+            background-color: #e6e6e6;
+            color: var(--text-dark);
+            border: none;
+            padding: 10px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: 4px;
+        }
+        
+        .back-to-top:hover {
+            background-color: #d4d4d4;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 24px 48px rgba(0,0,0,0.2);
+            text-align: center;
+            border-radius: 8px;
+            transform: translateY(30px) scale(0.95);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 16px 0;
+            color: var(--text-dark);
+        }
+
+        .modal-text {
+            font-size: 15px;
+            color: var(--text-light);
+            margin: 0 0 32px 0;
+            line-height: 1.6;
+        }
+
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-request {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-request:hover {
+            background-color: var(--primary-blue-hover);
+        }
+
+        .btn-view-invoice {
+            display: none;
+            background-color: #107c10; /* Microsoft Green */
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-view-invoice:hover {
+            background-color: #0b5b0b;
+        }
+
+        .btn-close {
+            background: none;
+            border: 1px solid var(--border-color);
+            padding: 12px 24px;
+            font-size: 15px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-close:hover {
+            background-color: #f3f3f3;
+        }
+
+        @media (max-width: 900px) {
+            .store-container {
+                flex-direction: column;
+                padding: 40px;
+                gap: 40px;
+            }
+            .product-image-container {
+                flex: none;
+                width: 100%;
+                max-width: 350px;
+                margin: 0 auto;
+            }
+            .top-row {
+                flex-direction: column;
+            }
+            .left-text {
+                padding-right: 0;
+            }
+            .right-actions {
+                width: 100%;
+                margin-top: 32px;
+                align-self: flex-start;
+            }
+            .config-section, .buy-button, .fine-print {
+                max-width: 100%;
+                align-self: flex-start;
+            }
+            .chat-widget {
+                bottom: 20px;
+                right: 20px;
+                position: fixed;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ms-header">
+        <a href="index.html" class="ms-header-logo">Microsoft</a>
+    </div>
+
+    <div class="page-wrapper">
+        <div class="store-container">
+            <div class="product-image-container">
+                <div class="product-image" id="uiBox">
+                    <div class="ms-logo">Microsoft</div>
+                    <h2>Visual Studio</h2>
+                    <p id="uiBoxText">Enterprise<br>Subscription</p>
+                </div>
+            </div>
+
+            <div class="right-column-container">
+                <div class="top-row">
+                    <div class="left-text">
+                        <h1 id="uiTitle">Visual Studio Enterprise Subscription (Renewal)</h1>
+                        <div class="publisher">Microsoft</div>
+                        <div class="description">
+                            <span id="uiDescription">A Visual Studio Enterprise subscription delivers a comprehensive set of resources tailored for professional development teams. It includes a licence to the...</span> 
+                            <a href="#" class="more-link">More</a>
+                        </div>
+                    </div>
+                    
+                    <div class="right-actions">
+                        <div class="price-large" id="uiPrice">£214.09 user/mo*</div>
+                        
+                        <div class="config-section">
+                            <div class="config-title">Choose your configuration</div>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="config" value="new">
+                                    Download - New
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="config" value="renewal" checked>
+                                    Download - Renewal
+                                </label>
+                            </div>
+                        </div>
+
+                        <button class="buy-button" onclick="openModal()">Buy renewal</button>
+
+                        <div class="fine-print">
+                            <p>Downloadable products will be delivered to you by a download link becoming available after completing purchase...</p>
+                            <p>A simplified invoice... <strong>footnotes.</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-widget">
+                <img src="https://i.pravatar.cc/100?img=47" alt="Agent Avatar">
+                Need help?<br>Let's chat
+            </div>
+
+            <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑ Back to top</button>
+        </div>
+    </div>
+
+    <!-- Invoice Modal -->
+    <div class="modal-overlay" id="invoiceModal">
+        <div class="modal-content">
+            <h2 class="modal-title" id="modalTitle">Request Invoice</h2>
+            <p class="modal-text" id="modalText">To proceed with your renewal, please request an invoice. Once generated, you can view and download it.</p>
+            
+            <div class="modal-actions">
+                <button class="btn-request" id="btnRequest" onclick="generateInvoice()">Request Invoice</button>
+                <a href="E0639HFAUQ_InvoiceVB STUDIO.pdf" target="_blank" class="btn-view-invoice" id="btnViewInvoice">View Invoice PDF</a>
+                <button class="btn-close" onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data for different plans exactly matching the pricing page values
+        const plansData = {
+            enterprise: {
+                title: "Visual Studio Enterprise Subscription (Renewal)",
+                boxText: "Enterprise<br>Subscription",
+                description: "A Visual Studio Enterprise subscription delivers a comprehensive set of resources tailored for professional development teams. It includes a licence to the IDE, advanced testing tools, and Azure credits.",
+                price: "£214.09",
+                boxColors: "linear-gradient(135deg, #5c2d91 0%, #8661c5 100%)" // Purple
+            },
+            professional: {
+                title: "Visual Studio Professional Subscription (Renewal)",
+                boxText: "Professional<br>Subscription",
+                description: "Professional developer tools, services, and subscription benefits for small teams. Get access to core Microsoft software for dev and test.",
+                price: "£2,952.00",
+                boxColors: "linear-gradient(135deg, #0078d4 0%, #2b88d8 100%)" // Blue
+            }
+        };
+
+        // Initialize dynamic content based on URL parameter
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            // Default to enterprise if no plan specified
+            const planKey = urlParams.get('plan') === 'professional' ? 'professional' : 'enterprise';
+            const plan = plansData[planKey];
+
+            // Update UI elements
+            document.title = plan.title + " - Microsoft Store";
+            document.getElementById('uiTitle').textContent = plan.title;
+            document.getElementById('uiBoxText').innerHTML = plan.boxText;
+            document.getElementById('uiDescription').textContent = plan.description;
+            document.getElementById('uiPrice').textContent = plan.price;
+            
+            // Update CSS variables for the box gradient
+            document.documentElement.style.setProperty('--box-gradient', plan.boxColors);
+        });
+
+        // Modal Logic
+        const modal = document.getElementById('invoiceModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalText = document.getElementById('modalText');
+        const btnRequest = document.getElementById('btnRequest');
+        const btnViewInvoice = document.getElementById('btnViewInvoice');
+
+        function openModal() {
+            // Reset state
+            modalTitle.textContent = 'Request Invoice';
+            modalText.textContent = 'To proceed with your renewal, please request an invoice. Once generated, you can view and download it.';
+            btnRequest.style.display = 'block';
+            btnRequest.textContent = 'Request Invoice';
+            btnViewInvoice.style.display = 'none';
+            
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+
+        function generateInvoice() {
+            // Simulate generation delay
+            btnRequest.textContent = 'Generating...';
+            btnRequest.disabled = true;
+            
+            setTimeout(() => {
+                modalTitle.textContent = 'Invoice Generated';
+                modalText.textContent = 'Your invoice has been successfully generated. Click below to view or download it.';
+                btnRequest.style.display = 'none';
+                btnRequest.disabled = false;
+                btnViewInvoice.style.display = 'block';
+            }, 1000);
+        }
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
