@@ -1,0 +1,202 @@
+/* RESET */
+/* general swimlane underlay prep */
+.vscom-swimlane-bg::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: block;
+}
+
+/* LAYOUT */
+
+/* S1/S2 Shared */
+.vscom-swimlane--img-left span.vscom-imageframe img,
+.vscom-swimlane--img-right span.vscom-imageframe img {
+    width: auto !important;
+}
+
+.vscom-swimlane-content--s1-bg-image-right,
+.vscom-swimlane-content--s2-bg-image-left {
+    gap: 116px;
+}
+
+.vscom-swimlane-content--s1-bg-image-right,
+.vscom-swimlane-content--s2-bg-image-left {
+    min-height: 400px;
+}
+
+/* S1 Image Right */
+.vscom-swimlane-content.vscom-swimlane-content--s1-bg-image-right::before {
+    top: 50%;
+    left: 50%;
+    min-height: 100%;
+    min-width: 100%;
+    transform: translate(-30%, -50%);
+    background-size: 50%;
+    background-position: bottom right;
+}
+
+/* S2 image Left */
+.vscom-swimlane-content.vscom-swimlane-content--s2-bg-image-left::before {
+    top: 50%;
+    left: 50%;
+    min-height: 100%;
+    min-width: 100%;
+    transform: translate(-70%, -50%);
+    background-size: 50%;
+    background-position: bottom left;
+}
+
+/* align s1 image to inside gap */
+@media (min-width: 1084px) {
+    .vscom-swimlane--fifty-fifty.vscom-swimlane--img-left span.vscom-imageframe {
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+/* S3 Image Below */
+.fusion-row:has(.vscom-swimlane--s3-image-below) {
+    align-items: stretch !important;
+}
+
+.vscom-swimlane--s3-image-below {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    gap: 40px;
+}
+
+.vscom-swimlane--s3-image-below a.vscom-arrow-link {
+    justify-content: center;
+}
+
+.vscom-swimlane--s3-image-below .vscom-imageframe {
+    max-width: 1045px;
+}
+
+@media (min-width: 1084px) {
+.fusion_builder_column_1_2 .vscom-swimlane-content--s3-bg-image-left {
+    padding-right: 2rem;
+}
+
+.fusion_builder_column_1_2 .vscom-swimlane-content--s3-bg-image-right {
+    padding-left: 2rem;
+}
+}
+
+.vscom-swimlane-content--s3-bg-image-left,
+.vscom-swimlane-content--s3-bg-image-right {
+    flex-direction: column;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.vscom-swimlane-content--s3-bg-image-left:before,
+.vscom-swimlane-content--s3-bg-image-right:before {
+    width: 625px;
+    height: 436px;
+}
+
+#wrapper .post-content .vscom-swimlane-content--s3-bg-image-right:before {
+    top: auto;
+    left: auto;
+    right: -4rem;
+    bottom: -4rem;
+    background-position: right bottom;
+}
+
+#wrapper .post-content .vscom-swimlane-content--s3-bg-image-left:before {
+    top: auto;
+    right: auto;
+    left: -4rem;
+    bottom: -4rem;
+    background-position: left bottom;
+}
+
+.vscom-swimlane--s3-center-bg {
+    background-position: center 60% !important;
+}
+
+/* S4 Image Right */
+.vscom-swimlane-content--fifty-fifty,
+.vscom-swimlane-content--fifty-fifty-reversed {
+    gap: 116px;
+}
+
+/* s4 bg position */
+.vscom-swimlane-content--fifty-fifty::before {
+    background-position: center right;
+    right: -23rem;
+    top: -4rem;
+    bottom: -4rem;
+}
+
+.vscom-swimlane-content--fifty-fifty-reversed::before {
+    background-position: center left;
+    left: -23rem;
+    top: -4rem;
+    bottom: -4rem;
+}
+
+#main .fusion-fullwidth:has(.vscom-swimlane-content--fifty-fifty),
+#main .fusion-fullwidth:has(.vscom-swimlane-content--fifty-fifty-reversed) {
+    padding-top: 6.4rem;
+    padding-bottom: 6.4rem;
+}
+
+/* S6 Two Column */
+.fusion-fullwidth:has(.vscom-swimlane--s3-image-below) {
+    background-size: 100% !important;
+}
+
+/* One Third */
+.vscom-swimlane-content--one-third,
+.vscom-swimlane-content--one-third-reversed {
+    gap: 40px;
+}
+
+.vscom-swimlane-content.vscom-swimlane-content--one-third::before {
+    background-position: center right;
+    right: -20rem;
+    top: -4rem;
+    bottom: -4rem;
+}
+
+.vscom-swimlane-content.vscom-swimlane-content--one-third-reversed::before {
+    background-position: center left;
+    left: -20rem;
+    top: -4rem;
+    bottom: -4rem;
+}
+
+/* image width overrides */
+.vscom-swimlane-content--image-width-auto span.vscom-imageframe {
+    justify-content: center;
+    flex: 0 1 auto;
+}
+
+.vscom-swimlane-content--image-width-fill span.vscom-imageframe {
+    justify-content: center;
+    flex: 1 1 auto;
+}
+
+.vscom-swimlane-content--image-width-fill span.vscom-imageframe img {
+    width: 100% !important;
+}
+
+/* MEDIA */
+
+/* TABLET and lower */
+@media (max-width: 1084px) {
+    /* COMMON */
+    .vscom-swimlane-body {
+        margin-bottom: 1.5rem;
+    }
+}
